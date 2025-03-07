@@ -85,3 +85,57 @@ body {
 	background: #e74c3c;
 	color: white;
 }
+
+.save-btn {
+	background: #2ecc71;
+	color: white;
+}
+
+.modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.modal-content {
+	background: white;
+	padding: 20px;
+	border-radius: 10px;
+	min-width: 400px;
+}
+
+.form-title {
+	font-size: 20px;
+	margin-bottom: 20px;
+	text-align: center;
+}
+.edit-form {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+
+.edit-form label {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
+.edit-form input,
+.edit-form textarea {
+	padding: 8px;
+	border: 1px solid white;
+	border-radius: 4px;
+}
+
+.form-actions {
+	display: flex;
+	gap: 10px;
+	justify-content: space-between;
+}
