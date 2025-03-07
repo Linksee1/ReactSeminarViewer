@@ -1,10 +1,53 @@
 import { useState } from "react";
+//Вспомогательные функции для работы с датами
+const formatDateForInput = (dateString) => {
+	const [day, month, year] = dateString.split(".");
+	return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+};
 
-export default function ({ seminar, onClose }) {
-	function handleChange() {}
-	const [formData, setFormData] = useState(seminar);
+const formatTimeForInput = (timeString) => {
+	return timeString.length === 5 ? timeString : `0${timeString}`;
+};
+
+export default function ({ seminar, onSubmit, onClose }) {
+	const [formData, setFormData] = useState({
+		...seminar,
+		date: formatDateForInput(seminar.date),
+		time: formatTimeForInput(seminar.time),
+	});
+	const [loading, setLoading] = useState(false);
+
+	function handleChange(e) {
+		const { name, value } = e.target;
+		setFormData((prev) => ({
+			...prev,
+			[name]: value,
+		}));
+	}
+
 	function handleSubmit(e) {
 		e.preventDefault();
+		const formattedData = {
+			...formData,
+			date: formData.date.split("-").reverse().join("."),
+			time: formData.time.replace(/^0/, ""),
+		};
+		setLoading(true);
+		onSubmit(formattedData).then(() => {
+			setLoading(false);
+		});
+	}
+	if (loading) {
+		return (
+			<div className="modal-overlay">
+				<div className="modal-content">
+					<h2 className="form-title">Отправляем данные</h2>
+					<div className="loader-wrapper">
+						<div className="loader"></div>
+					</div>
+				</div>
+			</div>
+		);
 	}
 	return (
 		<div className="modal-overlay">

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import DeleteSeminarModal from "./DeleteSeminarModal";
 import EditSeminarModal from "./EditSeminarModal";
+import SeminarListSkeleton from "./SeminarListSkeleton";
 
 const API_URL = "http://localhost:3000/seminars";
 
@@ -20,11 +21,18 @@ export default function SeminarList() {
 					throw new Error("Ошибка загрузки семинаров");
 				}
 				const data = await response.json();
+				//Вдруг мы удалили все семинары
+				if (data.length === 0) {
+					throw new Error("Нет семинаров в списке");
+				}
 				setSeminars(data);
 			} catch (err) {
 				setError(err.message);
 			} finally {
-				setLoading(false);
+				//небольшая задержка для показа плавной анимации предзагрузки
+				setTimeout(() => {
+					setLoading(false);
+				}, 2000);
 			}
 		};
 		fetchSeminars();
@@ -42,10 +50,42 @@ export default function SeminarList() {
 		} catch (err) {
 			setError(err.message);
 		}
+		await new Promise((resolve) => setTimeout(resolve, 2000));
 		setDeleteSeminar(false);
 	};
 
-	async function handleEditSubmit() {}
+	const handleEditSubmit = async (updatedSeminar) => {
+		try {
+			const response = await fetch(`${API_URL}/${updatedSeminar.id}`, {
+				method: "PUT",
+				body: JSON.stringify(updatedSeminar),
+			});
+			if (!response.ok) throw new Error("Ошибка обновления");
+			//симулируем долгий ответ
+			await new Promise((resolve) => setTimeout(resolve, 2000));
+			const data = await response.json();
+			setSeminars(seminars.map((s) => (s.id === data.id ? data : s)));
+		} catch (err) {
+			setError(err.message);
+		}
+		setEditSeminar(false);
+		setSelectedSeminar(null);
+	};
+
+	if (loading) {
+		return (
+			<div className="seminar-list">
+				{[...Array(5)].map((_, index) => (
+					<SeminarListSkeleton key={index} />
+				))}
+			</div>
+		);
+	}
+
+	if (error) {
+		return <h1 className="error">{error}</h1>;
+	}
+
 	return (
 		<div className="seminar-list">
 			{seminars.map((seminar) => (

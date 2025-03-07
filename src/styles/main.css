@@ -22,6 +22,9 @@ body {
 }
 
 .seminar-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
 	background: white;
 	border-radius: 10px;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -42,6 +45,10 @@ body {
 
 .seminar-content {
 	padding: 15px;
+	padding: 15px;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
 }
 
 .seminar-description {
@@ -59,9 +66,8 @@ body {
 
 .action-buttons {
 	display: flex;
-	gap: 10px;
 	justify-content: space-between;
-	margin-top: 15px;
+	margin-top: auto;
 }
 
 .btn {
@@ -138,4 +144,115 @@ body {
 	display: flex;
 	gap: 10px;
 	justify-content: space-between;
+}
+
+.skeleton {
+	position: relative;
+	overflow: hidden;
+}
+
+.skeleton::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: linear-gradient(
+		90deg,
+		rgba(255, 255, 255, 0) 0%,
+		rgba(255, 255, 255, 0.2) 20%,
+		rgba(255, 255, 255, 0.5) 60%,
+		rgba(255, 255, 255, 0)
+	);
+	animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+	0% {
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(100%);
+	}
+}
+
+.skeleton-image {
+	height: 200px;
+	background-color: #ecf0f1;
+	border-radius: 4px;
+}
+
+.skeleton-title {
+	height: 24px;
+	width: 60%;
+	background-color: #ecf0f1;
+	margin-bottom: 12px;
+	border-radius: 4px;
+}
+
+.skeleton-description {
+	height: 16px;
+	width: 90%;
+	background-color: #ecf0f1;
+	margin-bottom: 8px;
+	border-radius: 4px;
+}
+
+.skeleton-date {
+	height: 14px;
+	width: 40%;
+	background-color: #ecf0f1;
+	border-radius: 4px;
+}
+
+.skeleton-time {
+	display: flex;
+	justify-content: space-between;
+	margin: 15px 0;
+}
+
+.skeleton-actions {
+	display: flex;
+	gap: 10px;
+	margin-top: 15px;
+	justify-content: space-between;
+}
+
+.skeleton-button {
+	height: 36px;
+	width: 120px;
+	background-color: #ecf0f1;
+	border-radius: 5px;
+}
+
+.error {
+	font-size: 4em;
+	text-align: center;
+}
+
+.loader-wrapper {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 5px;
+}
+
+.loader {
+	width: 48px;
+	height: 48px;
+	border: 5px solid #ebebeb;
+	border-bottom-color: #3498db;
+	border-radius: 50%;
+	display: inline-block;
+	box-sizing: border-box;
+	animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
 }
