@@ -1,5 +1,4 @@
-export default function ({ seminar, onClose }) {
-	function handleDelete() {}
+export default function ({ seminarId, onSubmit, onClose }) {
 	return (
 		<div className="modal-overlay">
 			<div className="modal-content">
@@ -7,7 +6,7 @@ export default function ({ seminar, onClose }) {
 				<div className="form-actions">
 					<button
 						className="btn save-btn"
-						onClick={() => handleDelete()}
+						onClick={() => onSubmit(seminarId)}
 					>
 						Да
 					</button>

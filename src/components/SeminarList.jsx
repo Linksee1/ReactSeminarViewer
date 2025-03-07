@@ -30,9 +30,22 @@ export default function SeminarList() {
 		fetchSeminars();
 	}, []);
 
-	function handleDeleteSubmit() {}
+	const handleDeleteSubmit = async (id) => {
+		try {
+			const response = await fetch(`${API_URL}/${id}`, {
+				method: "DELETE",
+			});
+			if (!response.ok) {
+				throw new Error("Ошибка удаления");
+			}
+			setSeminars(seminars.filter((seminar) => seminar.id !== id));
+		} catch (err) {
+			setError(err.message);
+		}
+		setDeleteSeminar(false);
+	};
 
-	function handleEditSubmit() {}
+	async function handleEditSubmit() {}
 	return (
 		<div className="seminar-list">
 			{seminars.map((seminar) => (
@@ -77,16 +90,22 @@ export default function SeminarList() {
 			))}
 			{deleteSeminar && (
 				<DeleteSeminarModal
-					seminar={selectedSeminar}
+					seminarId={selectedSeminar.id}
 					onSubmit={handleDeleteSubmit}
-					onClose={() => setSelectedSeminar(null)}
+					onClose={() => {
+						setDeleteSeminar(false);
+						setSelectedSeminar(null);
+					}}
 				/>
 			)}
 			{editSeminar && (
 				<EditSeminarModal
 					seminar={selectedSeminar}
 					onSubmit={handleEditSubmit}
-					onClose={() => setSelectedSeminar(null)}
+					onClose={() => {
+						setEditSeminar(false);
+						setSelectedSeminar(null);
+					}}
 				/>
 			)}
 		</div>
